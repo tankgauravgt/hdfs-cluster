@@ -1,0 +1,33 @@
+<configuration>
+    
+    <!-- namenode metadata directory -->
+    <property>
+        <name>dfs.name.dir</name>
+        <value>/home/hadoop/data/dfs/name</value>
+    </property>
+
+    <!-- datanode data directory -->
+    <property>
+        <name>dfs.data.dir</name>
+        <value>/home/hadoop/data/dfs/data</value>
+    </property>
+
+    <!-- replication factor -->
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+    
+    <!-- namenode ui address for hadoop 3.4.0 -->
+    <property>
+        <name>dfs.namenode.http-address</name>
+        <value>namenode:9870</value>
+    </property>
+
+    <!-- datanode ui address for hadoop 3.4.0 -->
+    <property>
+        <name>dfs.namenode.rpc-address</name>
+        <value>namenode:9000</value>
+    </property>
+
+</configuration>
