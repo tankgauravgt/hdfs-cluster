@@ -1,5 +1,0 @@
-# ignore data (i.e., hdfs::namenode, hdfs::datanode)
-data
-
-# ignore tmp data:
-tmp

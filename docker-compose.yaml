@@ -3,41 +3,74 @@ services:
   # =======================================================
   # HDFS::Namenode
   # =======================================================
-
+  
   namenode:
     container_name: hdfs-namenode
     image: hadoop-340
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "2222:22"
-      - "9870:9870"
     tty: true
     stdin_open: true
     volumes:
       - ./configs:/home/hadoop/hadoop-3.4.0/etc/hadoop
-      - ./data:/home/hadoop/data
-      - ./tmp:/home/hadoop/tmp
       - ~/.ssh/id_rsa.pub:/home/hadoop/.ssh/authorized_keys:ro
     entrypoint: 
       - "/bin/bash" 
       - "-c"
       - "sudo service ssh start && hdfs namenode -format -force && hdfs namenode"
 
-  datanode:
-    container_name: hdfs-datanode
+  firefox:
+    container_name: jumpbox
+    image: jlesage/firefox
+    ports:
+      - "5800:5800"
+
+  datanode1:
     image: hadoop-340
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "9864:9864"
     tty: true
     stdin_open: true
     volumes:
       - ./configs:/home/hadoop/hadoop-3.4.0/etc/hadoop
-      - ./tmp:/home/hadoop/tmp
+    entrypoint: 
+      - "/bin/bash" 
+      - "-c"
+      - "sudo service ssh start && hdfs datanode"
+    environment:
+      - DFS_NAMENODE_RPC_ADDRESS=namenode:9000
+    depends_on:
+      - namenode
+
+  datanode2:
+    image: hadoop-340
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./configs:/home/hadoop/hadoop-3.4.0/etc/hadoop
+    entrypoint: 
+      - "/bin/bash" 
+      - "-c"
+      - "sudo service ssh start && hdfs datanode"
+    environment:
+      - DFS_NAMENODE_RPC_ADDRESS=namenode:9000
+    depends_on:
+      - namenode
+
+  datanode3:
+    image: hadoop-340
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./configs:/home/hadoop/hadoop-3.4.0/etc/hadoop
     entrypoint: 
       - "/bin/bash" 
       - "-c"
