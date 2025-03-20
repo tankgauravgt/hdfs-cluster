@@ -20,11 +20,19 @@ services:
       - "-c"
       - "sudo service ssh start && hdfs namenode -format -force && hdfs namenode"
 
+  # =======================================================
+  # Jump machine which translates datanodes' addresses
+  # =======================================================
+  
   firefox:
     container_name: jumpbox
     image: jlesage/firefox
     ports:
       - "5800:5800"
+
+  # =======================================================
+  # HDFS::Datanode-1
+  # =======================================================
 
   datanode1:
     image: hadoop-340
@@ -44,6 +52,10 @@ services:
     depends_on:
       - namenode
 
+  # =======================================================
+  # HDFS::Datanode-2
+  # =======================================================
+
   datanode2:
     image: hadoop-340
     build:
@@ -61,6 +73,10 @@ services:
       - DFS_NAMENODE_RPC_ADDRESS=namenode:9000
     depends_on:
       - namenode
+
+  # =======================================================
+  # HDFS::Datanode-3
+  # =======================================================
 
   datanode3:
     image: hadoop-340
